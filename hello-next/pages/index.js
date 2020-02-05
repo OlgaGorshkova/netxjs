@@ -2,20 +2,55 @@ import Link from 'next/link';
 import Layout from '../components/myLayout';
 import fetch from 'isomorphic-unfetch';
 
+const PostLink = ({ post }) => (
+    <li>
+        <Link href="/p/[id]" as={`/p/${post.id}`}>
+            <a>{post.name}</a>
+        </Link>
+        <style jsx>
+            {
+                `li {
+                    list-style: none;
+                    margin: 5px 0;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: blue;
+                    font-family: 'Arial';
+                }
+
+                a:hover {
+                    opacity: 0.6;
+                }
+                `
+            }
+        </style>
+    </li>
+);
+
 const Index = props => (
     <Layout>
-        <h1> Batman show </h1>
+        <h1> Suits show </h1>
         <ul>
             {
-                props.shows.map(item => (
-                   <li key={item.id}>
-                       <Link href="/p/[id]" as={`/p/${item.id}`}>
-                            <a>{item.name}</a>
-                       </Link>
-                   </li>
+                props.shows.map(item => (                   
+                    <PostLink key={item.id} post={item} />                   
                 ))
             }
         </ul>
+        <style jsx>
+            {
+                `h1 {
+                    font-family: 'Arial';
+                }
+
+                ul {
+                    padding: 0;
+                }                
+                `
+            }
+        </style>
     </Layout>
 );
 
