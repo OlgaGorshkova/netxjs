@@ -1,6 +1,79 @@
 import Link from 'next/link';
 import Layout from '../components/myLayout';
 import fetch from 'isomorphic-unfetch';
+import React from 'react';
+import {useState} from 'react';
+
+const initialNoteList = [{
+    note: 'first',
+    dateTimeSec: 123
+}];
+
+const Reminder = props => {    
+   
+    const [note, setNote] = useState('');
+    const [noteList, setNoteList] = useState(initialNoteList);
+    const [date, setDate] = useState(0);
+
+    const handleSubmit = (e) => { 
+                
+        const newNoteList = [...noteList];
+        const newNote = {
+            note: note,
+            dateTimeSec: date
+        }; 
+        newNoteList.push(newNote);
+        setNoteList(newNoteList);
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+            <label> 
+                Input note 
+                <input
+                    type='text'
+                    placeholder='Add note'
+                    value={note}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setNote(val);
+                    }}
+                />
+            </label>
+            </div>
+            <div>
+            <label> 
+                Input date in sec
+                <input
+                    type='text'
+                    placeholder='Add date in sec'
+                    value={date}
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        setDate(val);
+                    }}
+                />
+            </label>
+            </div>
+            <div>
+                <input type='submit' value='Submit'/>
+            </div>
+           
+            <ul>
+            {
+                noteList && noteList.map((item, index) => (
+                    <li key={index}>
+                        {item.note} at time {item.dateTimeSec}
+                    </li>
+                ))
+            }            
+            </ul>
+        </form>
+    );
+};
+
+//export default Reminder;
 
 const PostLink = ({ post }) => (
     <li>
@@ -51,6 +124,7 @@ const Index = props => (
                 `
             }
         </style>
+        <Reminder />
     </Layout>
 );
 
